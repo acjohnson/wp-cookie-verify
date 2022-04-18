@@ -1,0 +1,5 @@
+wp-cookie-verify
+Gopkg.lock
+*.test
+*.swp
+go.sum

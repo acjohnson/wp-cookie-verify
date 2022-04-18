@@ -112,12 +112,13 @@ func (a Auth) Get(values url.Values, headers http.Header) (int, interface{}) {
 	var r interface{}
 	var status int
 	var authed bool
+	var cookie string
 
 	redis_host := getEnv("REDIS_HOST", "localhost")
 	redis_port := getEnv("REDIS_PORT", "6379")
 
-	cookie := headers.Get("cookie")
-	if cookie == "" || !strings.Contains(cookie, "wordpress_logged_in_") {
+	cookie_header := headers.Get("cookie")
+	if cookie_header == "" || !strings.Contains(cookie_header, "wordpress_logged_in_") {
 		status = 401
 		return status, r
 	}
@@ -137,6 +138,16 @@ func (a Auth) Get(values url.Values, headers http.Header) (int, interface{}) {
 		}
 		//log.Println("cookie", cookie)
 		//log.Println("key   ", "wordpress_logged_in_"+val)
+		cookie_slice := strings.Split(cookie_header, ";")
+		for _, value := range cookie_slice {
+			//log.Println(value)
+			if strings.Contains(value, "wordpress_logged_in_") {
+				cookie = strings.TrimSpace(value)
+				break
+			} else {
+				cookie = ""
+			}
+		}
 		if cookie == "wordpress_logged_in_"+val {
 			authed = true
 			log.Println("Success, cookie matched: " + cookie)

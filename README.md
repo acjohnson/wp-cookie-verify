@@ -51,3 +51,7 @@ Example
                 return 302 https://$host/logout;
         }
 ```
+
+Diagram
+=======
+![wp-cookie-verify diagram](diagram.png)

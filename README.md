@@ -10,6 +10,11 @@ Requires valid cookie strings (`wordpress_logged_in_*`) to be added to a redis i
 
 As long as the cookie is in redis the `cookie` header will be passed to the `/auth` endpoint and wp-cookie-verify will determine if it is legit.
 
+How to get Wordpress cookies?
+=============================
+One method would be to pull the cookie from an Apache response log and insert into redis. If this method
+sounds suitable to you please look at [wp-cookie-tail](https://github.com/acjohnson/wp-cookie-tail).
+
 Example
 =======
 `nginx.conf`
